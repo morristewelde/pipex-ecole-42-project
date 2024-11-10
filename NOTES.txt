@@ -1,0 +1,53 @@
+open ()
+	O_WRONLY: Open the file in write-only mode.
+	O_RDONLY: Open the file in read-only mode.
+	O_RDWR: Open the file for both reading and writing.
+	O_CREAT: Create the file if it does not exist.
+	O_TRUNC: Truncate the file to zero length if it exists (i.e., clear its contents).
+	O_APPEND: Open the file in append mode; new data is written at the end of the file.
+
+	examples 
+		int fd = open("example.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+
+access()
+
+	R_OK: Checks if the file is readable.
+	W_OK: Checks if the file is writable.
+	X_OK: Checks if the file is executable.
+	F_OK: Checks if the file exists (without checking specific permissions).
+
+	example 
+		access("morris.txt", R_OK);
+	access return 0 or -1 if 0 access permitted if -1 acess denied check
+
+
+exec execvp execve . . .
+
+	will replace the program that was running in the first place and execute what is passed through exec.
+		return exec will not return anything unless there is something wrong in that case it will return (-1).
+
+	exec : will always be followed by v (vector) or l (list).
+		 - vector : if v that means the arg is passed as an vector (char *);
+		 - list : is passed as list of args.
+
+		P(path) : if p is added after v or l it will search for the path the program arg.
+	  		e.g - execlp("ls", "ls", "-al", NULL);
+	  			- execl("/bin/ls", "ls", "-al", NULL); if the p is lifted then we have to provide the absolute path.
+		e (environmental variable) - if e is added we want to pass d/t set of environmental variable to the end of the arguments.
+	
+
+	
+wait(NULL) will pause the parent process untill the child is done executing.
+	- wait will reply -1 if error or no child to wait for anymore unless otherwise it will return the process id it has been waiting for.
+
+
+
+getpid() -  will get the process id of the current id.
+getppid() - will get the process id of the parent id. both doesnt take arguments.
+
+
+
+N.B - if we use sleep() to kill (sleep) a child process then the child process will have differentt parent ID than the process id of the main process. AND it will execute after we exit the main function.
+
+int fd[2];
+pipe(fd) - pipe takes two int fd[0] is where the pipe would read and fd[1] is where it would write. 
