@@ -293,7 +293,7 @@ char	*check_cmd(char **envp, char **cmd)
 	return (NULL);
 }
 
-//  -  -  -  -  -  - pipex 
+//  -  -  -  -  -  - pipex  -  -  -  -  -  -  //
 
 void	ft_execve(char *cmd, char **envp, t_pipex *xpipe)
 {
@@ -367,7 +367,7 @@ void	pipex(int ac, char **av, t_pipex *xpipe, char **envp)
 		child_process2(av, xpipe, envp);
 }
 
-//  -  -  -  -  -  - main 
+//  -  -  -  -  -  -  -  main   -  -  -  -  -  - //
 
 int	main(int ac, char **av, char **envp)
 {

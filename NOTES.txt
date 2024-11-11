@@ -15,8 +15,13 @@ access()
 	W_OK: Checks if the file is writable.
 	X_OK: Checks if the file is executable.
 	F_OK: Checks if the file exists (without checking specific permissions).
+	
+	R_OK = 4;
+	W_OK = 2;
+	X_OK = 1;
+	F_OK = 0;   // these are defined in fcntl.h
 
-	example 
+	example
 		access("morris.txt", R_OK);
 	access return 0 or -1 if 0 access permitted if -1 acess denied check
 
@@ -51,3 +56,29 @@ N.B - if we use sleep() to kill (sleep) a child process then the child process w
 
 int fd[2];
 pipe(fd) - pipe takes two int fd[0] is where the pipe would read and fd[1] is where it would write. 
+
+
+DUP2
+	- dup2(fd1, fd2); - Dup2 will not copy the content of in fd2(the file opened by open to give the fd2 value) to fd1.
+
+	- dup2(fd1, STDOUT_FILENO); - this will redirect the things from STDOUT_FILENO to fd1 so instead of writing in the terminal using printf or write function now they will write to fd1. 
+	
+	e.g -  
+		int main()
+		{
+			int fd1 = open("text1.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			dup2(fd1, STDOUT_FILENO);  // Redirect stdout to fd1
+			printf("This will be written to text1.txt instead of the terminal.\n");
+			close(fd1);
+			return 0;
+		}
+
+		N.B - even after close(fd1)  the printf or write or anything which is writing on the terminal will be directed to fd1 not the terminal >>> b/c DUP2 has done the redirection.
+			
+			HOWEVER - if we close(1) || close(STDOUT_FILENO) then nothing will be printed and directed to fd1 becuse it has been closed.
+
+CHMOD 0644 || 0777 || 0764 ... 
+	
+	read 4, write 2, execute 1 = all permision 7 (4 + 2 + 1);
+
+	N.B - the  infront is telling the system the numbers are on octal not decimal. 
