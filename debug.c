@@ -35,7 +35,7 @@ void	pipex(int ac, char **av, t_pipex *xpipe, char **envp);
 size_t	ft_strlen(const char *str);
 char	*ft_searsh_for_slash(const char *s, int c);
 
-# define RED "\x1b[31m"
+# define RED "\x1b[31m" 
 # define GREEN "\x1b[32m"
 # define YELLOW "\x1b[33m"
 # define BLUE "\x1b[34m"
