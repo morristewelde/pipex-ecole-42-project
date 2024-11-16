@@ -6,10 +6,11 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 22:43:21 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/11 21:51:29 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/16 14:23:03 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "pipex.h"
 
 int	count_str(char *str, char sep)
 {
@@ -69,7 +70,7 @@ char	**ft_split(char *str, char sep)
 	if (!words)
 	{
 		free(result);
-		ft_error();
+		ft_error("malloc error on split");
 	}
 	if (result == NULL)
 		return (NULL);
@@ -81,8 +82,8 @@ char	**ft_split(char *str, char sep)
 /*#include <stdio.h>
 int main()
 {
-    char input_str[] = "  morris is testing his   new    split";
-    char sep = ' '; 
+    char input_str[] = "nnn mmm bbb";
+    char sep = ':'; 
     char **result = ft_split(input_str, sep);
 
     if (result == NULL)
