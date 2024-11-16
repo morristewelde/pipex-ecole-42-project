@@ -3,7 +3,7 @@ open ()
 	O_RDONLY: Open the file in read-only mode.
 	O_RDWR: Open the file for both reading and writing.
 	O_CREAT: Create the file if it does not exist.
-	O_TRUNC: Truncate the file to zero length if it exists (i.e., clear its contents).
+	O_TRUNC: Truncate the file to zero length if it exists (i.e., clear its contents). has no effect on the permission of existing file.
 	O_APPEND: Open the file in append mode; new data is written at the end of the file.
 
 	examples 
@@ -54,8 +54,10 @@ getppid() - will get the process id of the parent id. both doesnt take arguments
 
 N.B - if we use sleep() to kill (sleep) a child process then the child process will have differentt parent ID than the process id of the main process. AND it will execute after we exit the main function.
 
-int fd[2];
-pipe(fd) - pipe takes two int fd[0] is where the pipe would read and fd[1] is where it would write. 
+
+PIPE
+	int fd[2];
+	pipe(fd) - pipe takes two int fd[0] is where the pipe would read and fd[1] is where it would write. 
 
 
 DUP2
@@ -77,8 +79,92 @@ DUP2
 			
 			HOWEVER - if we close(1) || close(STDOUT_FILENO) then nothing will be printed and directed to fd1 becuse it has been closed.
 
+
 CHMOD 0644 || 0777 || 0764 ... 
 	
 	read 4, write 2, execute 1 = all permision 7 (4 + 2 + 1);
 
-	N.B - the  infront is telling the system the numbers are on octal not decimal. 
+	N.B - the  infront is telling the system the numbers are on octal not decimal.
+
+
+TERMINAL OUTPUT TO A FILE 
+
+	> 	- overwrites (STDOUT only)  (STDOUT doesnt show in the terminal)
+	>> 	- appends (STDOUT only) (STDOUT doesnt show in the terminal) 
+
+	2> 	- overwrites (STDERR only) (STDERR doesnt show in the terminal) 
+	2>> - appends (STDERR only) (STDERR doesnt show in the terminal) 
+
+	&> 	- overwrites (STDERR & STDOUT) nothing is shown in the terminal
+	&>> - appends (STDERR & STDOUT) nothing is shown in the terminal
+
+	| tee		- overwrites (STDOUT only) and displays at terminal as well
+	| tee -a	- append (STDOUT only) and displays at terminal as well
+
+	|& tee		- overwrites (STDOUT & STDERR) and displays at terminal as well
+	|& tee -a	- append (STDOUT & STDERR) and displays at terminal as well
+
+
+ENVIRONMENT VARIABLE 
+
+	- to set an environment variable we can simlpy use 
+		e.g. - 
+			
+			 - VAR=testing_env_variable   //this will create env variable called variable
+
+					this VAR will not be used by other programs to use the variable by other programs we have to use "export" before declaring the variable 
+
+			- export VAR=testing_env_variable   //now it is saved temporarly in the session we are using.
+
+				but to save it and make it permanent you can edit the .bashrc file from home directory and add
+
+			- add VAR=testing_env_variable to .bashrc 
+			
+				then run on terminal 
+					source .bashrc    // this will refresh the changes you made to .bashrc
+
+			- to make variable saved for all users you can go to etc (cd etc) amd add variable to the "environment" file.
+				
+				cd ~
+				cd etc
+				add VAR=testing_env_variable to environment 
+
+			unset VAR   // will delete environmental variable setted by export (will remove from session not from etc/environment file or .bashrc )
+
+
+BIN  & PATH     - - - - BIN (Binary Directory)
+
+	- when basially pass a command in the terminal e.g. ls it will search in all the directory of the path and execute the comand. or will reply "command not found"
+
+	PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+
+	This means the shell will look for executables in the following order:
+
+	/usr/local/sbin
+		- Local system binaries for system administrators (e.g - localtunnel, apache2)
+	/usr/local/bin
+		- Local user binaries and programs that are manually installed by the system administrator. (E.g - git, python3)
+	/usr/sbin
+		- System binaries, usually administrative commands that are typically used by the root user or system administrators. (E.g - ifconfig, fsck).
+	/usr/bin
+		- User binaries—this is where most user-level executable commands and utilities are stored. These are the commands that most users use regularly. (E.g - ls, grep, wc ...)
+	/sbin
+		- Essential system binaries that are typically only used by the root user for system maintenance and administrative tasks. (E.g - reboot, shutdown)
+	/bin
+		- Essential command binaries required for the system to boot and run in single-user mode. These binaries are crucial for basic system operation. (E.g - echo, pwd)
+	/usr/games
+		- Games and interactive programs. Many interactive programs or games are installed here. (E.g - nethack, tetris).
+	/usr/local/games
+	/snap/bin
+		Executables installed via Snap packages. Snap is a package management system that packages software along with its dependencies. (E.g - code, spotify).
+	
+	Summary of Commands in Each Directory
+		
+		- System administration -  (e.g., /usr/sbin, /sbin): Tools for system maintenance and configuration.
+		
+		- User-level commands (e.g., /usr/bin, /bin): Commands like ls, grep, pwd, etc.
+		
+		- Locally installed tools (e.g., /usr/local/bin, /usr/local/sbin): Programs installed outside the package manager.
+		Games (e.g., /usr/games, /usr/local/games): Game executables.
+
+		- Snap packages (e.g., /snap/bin): Commands installed via Snap package manager.
