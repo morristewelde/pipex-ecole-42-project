@@ -70,7 +70,9 @@ char	*ft_strdup(const char *src)
 	size_t	len;
 	size_t	i;
 
-	len = ft_strlen(src);
+	len = 0;
+	while (*src)
+		len++;
 	dst = (char *) malloc(sizeof(char) * (len + 1));
 	if (dst == NULL)
 		return (NULL);

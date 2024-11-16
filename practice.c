@@ -68,7 +68,7 @@
 }*/
 
 //EXECVP  ... EXECVP which works
-int main()
+/*int main()
 {
 	char *av[3];
 
@@ -80,7 +80,7 @@ int main()
 	// execvp("/bin/ls", av); it will do the same thing as execve exept here we dont need the full path
 	printf("This line will not be done.\n");
 	return (0);
-}
+}*/
 
 //FORK
 /*int main(int ac, char **av)
@@ -156,12 +156,19 @@ int main()
 	return (0);
 }*/
 
-/*int main(int ac, char **av)
+// FORK use twice with file (creating three process)
+int madin(int ac, char **av)
 {
-    int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+    int arr[9] = {};
     int arrsize = sizeof(arr) / sizeof(int);
     int fd[2];
     pipe(fd);
+
+	int j = 1;
+	for (int i = 0; i < ac; i++)
+	{
+		arr[i] = atoi(av[j++]);
+	}
 
     int id1 = fork();
     if (id1 == 0) // First child process
@@ -225,7 +232,65 @@ int main()
 	printf("was waiting for %d\n", wait2);
 
     return 0;
-}*/
+}
+
+int	main(int ac, char **av)
+{
+	int arr[256] = {0};
+	int arrsize = ac - 1;
+	for (int i = 0; i < arrsize; i++) {
+		arr[i] = atoi(av[i + 1]);
+	}
+	int fd1[2], fd2[2];
+
+	pipe(fd1);
+
+	int pid = fork();
+	if(pid == 0)
+	{
+		close(fd1[0]);
+		int start = 0;
+		int end = arrsize / 3;
+		int sum = 0;
+		for (int i = start; i < end; i++){
+			sum += arr[i];
+		}
+		write(fd1[1], &sum, sizeof(int));
+		printf("first %d\n", sum);
+		close(fd1[1]);
+		return 0;
+	} 
+	int pid2 = fork();
+	if (pid2 == 0){
+		int start = arrsize / 3;
+		int end = 2 * (arrsize / 3);
+		int sum = 0;
+		read(fd1[0], &sum, sizeof(int));
+		close(fd1[0]);
+		for (int i = start; i < end; i++){
+			sum += arr[i];
+		}
+		write(fd1[1], &sum, sizeof(int));
+		printf("second %d\n", sum);
+		close(fd1[1]);
+		return 0;
+	} 
+	int start = 2 * (arrsize / 3);
+	int w1 = wait(NULL);
+	int w2 = wait(NULL);
+	int end = arrsize;
+	int sum = 0;
+	read(fd1[0], &sum, sizeof(int));
+	close(fd1[0]);
+	for (int i = start; i < arrsize; i++){
+		sum += arr[i];
+	}
+	printf("the process %d - %d have finished\n", w1, w2);
+	printf("main %d\n", sum);
+	close(fd1[0]);
+	
+	return 0;
+}
 
 /*int main(int argc, char *argv[])
 {
@@ -272,9 +337,16 @@ int main()
     return 1;
 }*/
 
-int demain()
-{
-	fprintf(stdout, "text from fprintf\n");
-	return 0;
-}
+
+/*int main(int ac, char **av, char **enp) {
+    int i = 0;
+
+    while (enp[i] != NULL) {
+        printf("ENVP[%d]: %s\n", i, enp[i]);
+        i++;
+    }
+
+    return 0;
+}*/
+
 
