@@ -41,14 +41,14 @@ exec execvp execve . . .
 		e (environmental variable) - if e is added we want to pass d/t set of environmental variable to the end of the arguments.
 	
 
-	
-wait(NULL) will pause the parent process untill the child is done executing.
-	- wait will reply -1 if error or no child to wait for anymore unless otherwise it will return the process id it has been waiting for.
+WAIT	
+	wait(NULL) will pause the parent process untill the child is done executing.
+		- wait will reply -1 if error or no child to wait for anymore unless otherwise it will return the process id it has been waiting for.
 
 
-
-getpid() -  will get the process id of the current id.
-getppid() - will get the process id of the parent id. both doesnt take arguments.
+GETPID()
+	getpid() -  will get the process id of the current id.
+	getppid() - will get the process id of the parent id. both doesnt take arguments.
 
 
 
@@ -168,3 +168,268 @@ BIN  & PATH     - - - - BIN (Binary Directory)
 		Games (e.g., /usr/games, /usr/local/games): Game executables.
 
 		- Snap packages (e.g., /snap/bin): Commands installed via Snap package manager.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MEMORY (RAM) NOTE TO SELF
+
+	if we have 1Mb of memory in the RAM the address of the memory go fro 0 t0 1048575 (FFFFF in hexa) each of the memory has 1 byte (8 bits) size meaning they an sotore 256 different value in each.
+
+		- this in table would look like 
+
+			|0| | | | | | | | | |
+			| | | | | | | | | | |
+			| | | | | | | | | | |
+			| | | | | | | | | | |
+			| | | | | | | | | | |
+			| | | | | | | | | |z|  z being 1048575
+
+			- 1024 * 1024 = 1048576 --- but since we start from 0 we subtruct 1 from 1048576 and get 1048575.
+			- 1024 kilobyte is 1 Mb. 
+				- in the above illustation example 1raw / 1 column is 1 kb. 
+
+			- each cell in this table (MEMORY) represnts 1 byte 
+				
+				  address  |       content 		 |
+
+				|  0x00000 |   0 1 0 1 1 0 0 1   |
+				|  0x00000 |   0 1 0 1 1 0 0 1   |
+				|  0x00000 |   0 1 0 1 1 0 0 1   |
+				|  0x00000 |   0 1 0 1 1 0 0 1   |
+				|  0x00000 |   0 1 0 1 1 0 0 1   |
+				|  0x00000 |   0 1 0 1 1 0 0 1   |
+				|  0x00000 |   0 1 0 1 1 0 0 1   |
+				|  0x00000 |   0 1 0 1 1 0 0 1   |
+				|	. . .  |         . . .		 |
+				|	. . .  |         . . .		 |
+				|	. . .  |         . . .		 |
+				|  0xFFFFA |   0 1 0 1 1 0 0 1   |
+				|  0xFFFFB |   0 1 0 1 1 0 0 1   |
+				|  0xFFFFC |   0 1 0 1 1 0 0 1   |
+				|  0xFFFFD |   0 1 0 1 1 0 0 1   |
+				|  0xFFFFE |   0 1 0 1 1 0 0 1   |
+				|  0xFFFFF |   0 1 0 1 1 0 0 1   |
+
+
+
+Memory Addressing Basics:
+
+	- In a computer, RAM is divided into memory locations, where each location has a unique address.
+	
+	- Each memory location stores 1 byte (8 bits) of data.
+
+
+
+1 MB Memory Layout:
+
+	- 1 MB of RAM = 1,048,576 bytes (since 1MB = 1024 × 1024).
+
+	- Memory addresses start at 0 and go up to 1,048,575 (or 0𝑥𝐹𝐹𝐹𝐹𝐹 in hexadecimal).
+
+	Example:
+		- Address 0 stores the first byte.
+		- Address 1,048,575 stores the last byte in a 1 MB memory.
+	
+	Why Subtract 1?
+		- Since addresses start at 0, the total number of addresses is equal to the last address + 1.
+		
+		- For 1 MB: 1,048,576
+		- Last Address = 1,048,576 − 1 = 1,048,575.
+
+
+
+Visualizing the Memory Table (1 MB):
+
+	- Each cell in the table represents 1 byte:
+
+		|  address |       content 		 |
+
+		|  0x00000 |   0 1 0 1 1 0 0 1   |
+		|  0x00000 |   0 1 0 1 1 0 0 1   |
+		|	. . .  |         . . .		 |
+		|	. . .  |         . . .		 |
+		|  0xFFFFD |   0 1 0 1 1 0 0 1   |
+		|  0xFFFFE |   0 1 0 1 1 0 0 1   |
+		|  0xFFFFF |   0 1 0 1 1 0 0 1   |
+
+
+	- Address: Unique location in memory (hexadecimal notation is often used).
+
+	- Content: Binary data (8 bits) stored at that address.
+
+
+
+Examples with Data Types
+
+	Assumptions:
+
+		Each data type occupies a certain number of bytes:
+			
+			- char: 1 byte.
+			- int: 4 bytes (on most systems).
+			- long: 8 bytes (on most systems).
+			- Memory addresses are sequential.
+		
+		
+		Memory Layout for Variables.
+
+			Suppose we declare these variables in memory:
+
+				- char c = 'A';         // 1 byte
+				- int i = 12345;        // 4 bytes
+				- long l = 9876543210;  // 8 bytes
+				
+			Visualizing Memory:
+
+				- Let’s assume these variables are stored starting from address 0x1000:
+								
+					Address   | Content (Binary)   | Data Type
+					------------------------------------------
+					0x1000    | 01000001           | char ('A')
+					0x1001    | --                 | (Unused for char)
+					0x1002    | --                 |
+					0x1003    | --                 |
+
+					0x1004    | 00111001           | int (12345, part 1)
+					0x1005    | 10011000           | int (12345, part 2)
+					0x1006    | 00000000           | int (12345, part 3)
+					0x1007    | 00000000           | int (12345, part 4)
+
+					0x1008    | 11001010           | long (9876543210, part 1)
+					0x1009    | 10100111           | long (9876543210, part 2)
+					0x100A    | 00000000           | long (9876543210, part 3)
+					0x100B    | 00000010           | long (9876543210, part 4)
+					0x100C    | 10100111           | long (9876543210, part 5)
+					0x100D    | 10001010           | long (9876543210, part 6)
+					0x100E    | 00000000           | long (9876543210, part 7)
+					0x100F    | 00000000           | long (9876543210, part 8)
+
+			char c:
+				- Stored at 0x1000.
+				- ASCII for 'A' is 65 (binary: 01000001).
+
+			int i:
+				- Starts at 0x1004 (aligned to 4-byte boundary).
+				- Integer value 12345 in binary is 00000000 00000000 00110001 10011001 (split across 4 bytes).
+
+			long l:
+				- Starts at 0x1008 (aligned to 8-byte boundary).
+				- Long value 9876543210 in binary is stored across 8 bytes.
+
+	Key Concepts to Remember:
+			
+		Alignment:
+			- Many systems align larger data types (like int, long) to addresses divisible by their size (e.g., 4 or 8 bytes).
+
+		Sequential Storage:
+			- Memory addresses increase sequentially, with larger data types occupying multiple contiguous addresses.
+		
+		Access by Address:
+			- To access a variable, the system retrieves data from the corresponding memory addresses.
+
+
+
+CAPACITY of RAM 
+
+	32-bit
+		- 2^32 = 4,294,967,296 unique addresses (up to 4gb of memory).
+		- Start from 0x00000000 go up to 0xFFFFFFFF (4,294,967,296 in decimal).
+	
+	64-bit
+		- 2^64 = 18.4 exabytes unique addresses (up to 4gb of memory).
+		- Start from 0x00000000 go up to 0xFFFFFFFFFFFFFFFF  (4,294,967,296 in decimal).
+
+
+		
+VIRTUAL MEMORY VS ACTUAL PHYSICAL MEMORY
+
+	VIRTAL MEMORY (some times alled LOGCAL MEMORY)
+
+		- Virtual Memory address: - are given to apps, programs, games . . . so that they dont actually get indirect contact with physical memory. 
+
+		- d/t processes get uninterapted memory from 0 - x amount of KB or MB. but in the acual physical memory it can be stored in different segment of the memory the link (mapping or pointing from th virtual address to the actual address) is done by the MMU (Memory Management Unit).
+
+
+	- Memory Management Unit (MMU):
+
+		- Handles mapping virtual addresses to physical addresses.
+
+		- Ensures programs think they have continuous memory, even if it's split between RAM and disk.
+
+
+	IMAGINE WE HAVE TWO APPS RUNNING 
+
+		APP 1   -  has virtual Memory lets say the virtual memory address maps from 0 t0 5242880 (5mb).  
+		
+		APP 2   -  has virtual Memory lets say the virtual memory address maps from 0 t0 5242880 (5mb).  
+
+
+		MMU (Memory Management Unit)
+
+		 	- the APPS think they got uninterrapted memory from 0 to 5242800.
+
+			- however, the MMU is handling taking thier addresses and maping it t the actual physical memory.
+
+				- the actual physical memory address may be intereted for example for -
+					for APP1 - the actual address in physical Memory address may be in two portions (e.g. - starting from 5242880 - 784320 (2.5mb) and from 131107200 - xxx (2.5mb))
+
+		
+
+MEMORY Segmentation and paging
+
+	Segmentation
+
+		- Memory is divided into segments, and addresses are given within these segments.
+
+		Example: A program might use its own segment starting at address 0x00000000, while the operating system uses a different segment.
+
+	paging
+	
+		- RAM is divided into fixed-sized pages (e.g., 4 KB each).
+		
+		- since making linkage between every virtual memory address and actual physical memory address may not be efficient we use paging (blocking portion of memory address by 4kb this portion is called page of memory)
+	
+	
+	- If physical RAM is full, less-used pages are temporarily stored on the hard drive (swap space).
