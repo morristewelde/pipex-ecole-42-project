@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:23:35 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/16 23:56:54 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/17 04:10:15 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-char	**ft_path(char **envp)
+char	**ft_get_paths(char **envp)
 {
 	int	i;
 

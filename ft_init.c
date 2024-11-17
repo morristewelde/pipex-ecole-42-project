@@ -6,16 +6,44 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/16 17:33:55 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/17 04:28:07 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+int absolute_relative(const char *command, unsigned int slash, int dot)
+{
+	int	i;
+	char d;
+	char s;
+
+	d = (char) slash;
+	s = (char) dot;
+	while(command[i])
+	{
+		if ((command[i] == d) || (command[i] == s))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+char	*ft_getcommand(char **paths, char **commands)
+{
+	int		i;
+	int		check_path;
+	char	*tmp;
+	char	*res;
+
+	check_path = absolute_relative(commands[0], '/', '.');
+	if (check_path != 0)
+		return (commands[0]);
+}
 void	ft_exec(char *commands, t_pipex *pipex, char **envp)
 {
 	pipex->commands = ft_split(commands, ' ');
-	pipex->paths = ft_path(envp);
+	pipex->paths = ft_get_paths(envp);
 	// if (!pipex->commands || !pipex->paths)
 	// 	ft_error("error with command");
 	// for (int i = 0; pipex->commands[i]; i++)
@@ -26,7 +54,7 @@ void	ft_exec(char *commands, t_pipex *pipex, char **envp)
 	// {
 	// 	printf("%s\n", pipex->paths[i]);
 	// }
-	
+	pipex->command = ft_get_command(pipex->paths, pipex->commands);  //TODO
 }
 
 void	pipe_init(int ac, char **av, char **envp, t_pipex *pipex)

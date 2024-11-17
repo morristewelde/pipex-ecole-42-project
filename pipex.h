@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/16 23:57:14 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/17 04:10:47 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ typedef struct s_pipex
 	int		fd[2];
 	char	**commands;
 	char	**paths;
-	char	*cmd;
+	char	*command;
 }			t_pipex;
 
 //initialize pipex
 void	pipe_init(int ac, char **av, char **envp, t_pipex *pipex);
 
 //utils
-char	**ft_path(char **envp);
+char	**ft_get_paths(char **envp);
 void	ft_error(char *err);
 void	ft_freestr(char **str);
 size_t	ft_strlen(char *str);
