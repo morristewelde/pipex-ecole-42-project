@@ -6,26 +6,27 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/16 14:55:16 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/16 17:33:55 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_exec(char *cmd, t_pipex *pipex, char **envp)
+void	ft_exec(char *commands, t_pipex *pipex, char **envp)
 {
-	pipex->cmd = ft_split(cmd, ' ');
+	pipex->commands = ft_split(commands, ' ');
 	pipex->paths = ft_path(envp);
-	// if (!pipex->cmd || !pipex->paths)
+	// if (!pipex->commands || !pipex->paths)
 	// 	ft_error("error with command");
-	for (int i = 0; pipex->cmd[i]; i++)
-	{
-		printf("%s\n", pipex->cmd[i]);
-	}
-	for (int i = 0; pipex->paths[i]; i++)
-	{
-		printf("%s\n", pipex->paths[i]);
-	}
+	// for (int i = 0; pipex->commands[i]; i++)
+	// {
+	// 	printf("%s\n", pipex->commands[i]);
+	// }
+	// for (int i = 0; pipex->paths[i]; i++)
+	// {
+	// 	printf("%s\n", pipex->paths[i]);
+	// }
+	
 }
 
 void	pipe_init(int ac, char **av, char **envp, t_pipex *pipex)
@@ -38,7 +39,7 @@ void	pipe_init(int ac, char **av, char **envp, t_pipex *pipex)
 		close(pipex->fd[0]);
 		dup2(pipex->filein, STDIN_FILENO);
 		close(pipex->filein);
-		// dup2(pipex->fd[1], STDOUT_FILENO);
+		dup2(pipex->fd[1], STDOUT_FILENO);
 		close(pipex->fd[1]);
 		ft_exec(av[2], pipex, envp);
 	}

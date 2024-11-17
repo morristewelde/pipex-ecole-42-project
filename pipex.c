@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/16 14:52:24 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/16 15:31:35 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 int	main(int ac, char **av, char **envp)
 {
 	t_pipex	*pipex;
+	int fdd = open("note", O_WRONLY | O_CREAT, 0644);
 
 	pipex = malloc(sizeof(t_pipex));
-	// if (!pipex)
-	// 	ft_error("mallloc error for pipe!\n");
-	// if (ac != 5)
-	// 	ft_error("error with argument!\n");
-	// if (!envp)
-	// 	ft_error("error with envp!\n");
+	/*if (!pipex)
+		ft_error("mallloc error for pipe!\n");
+	if (ac != 5)
+		ft_error("error with argument!\n");
+	if (!envp)
+		ft_error("error with envp!\n");*/
 	pipe_init(ac, av, envp, pipex);
 	close(pipex->fd[0]);
 	close(pipex->fd[1]);

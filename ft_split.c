@@ -6,11 +6,34 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 22:43:21 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/16 14:23:03 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/16 23:30:14 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	ft_freestr(char **str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}
+
+size_t	ft_strlen(char *str)
+{
+	size_t	len;
+
+	len = 0;
+	while(str[len])
+		len++;
+	return (len);
+}
 
 int	count_str(char *str, char sep)
 {
