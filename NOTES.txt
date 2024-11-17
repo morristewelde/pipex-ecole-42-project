@@ -19,7 +19,7 @@ access()
 	R_OK = 4;
 	W_OK = 2;
 	X_OK = 1;
-	F_OK = 0;   // these are defined in fcntl.h
+	F_OK = 0;   // these are defined in fcntl.h 
 
 	example
 		access("morris.txt", R_OK);
