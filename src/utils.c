@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:23:35 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/18 00:16:52 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/18 21:50:45 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,14 @@
 
 void	ft_error(char *err)
 {
-	perror(err);
+	int	i;
+
+	i = 0;
+	while (err[i])
+	{
+		write(2, &err[i], 1);
+		i++;
+	}
 	exit(EXIT_FAILURE);
 }
 
@@ -30,6 +37,24 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (0);
+}
+
+char	*absolute_relative(const char *command, unsigned int slash, int dot)
+{
+	int		i;
+	char	d;
+	char	s;
+
+	d = (char) slash;
+	s = (char) dot;
+	i = 0;
+	while (command[i])
+	{
+		if ((command[i] == d) || (command[i] == s))
+			return ((char *)&command[i]);
+		i++;
+	}
+	return (NULL);
 }
 
 char	**ft_get_paths(char **envp)

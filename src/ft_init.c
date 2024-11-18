@@ -6,40 +6,20 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/18 00:20:37 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/18 23:58:24 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-int	absolute_relative(const char *command, unsigned int slash, int dot)
-{
-	int		i;
-	char	d;
-	char	s;
-
-	d = (char) slash;
-	s = (char) dot;
-	i = 0;
-	while (command[i])
-	{
-		if ((command[i] == d) || (command[i] == s))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 char	*ft_get_command(char **paths, char **commands)
 {
 	int		i;
-	int		check_path;
 	char	*tmp;
 	char	*res;
 
 	i = 0;
-	check_path = absolute_relative(commands[0], '/', '.');
-	if (check_path != 0)
+	if (absolute_relative(commands[0], '/', '.') != 0)
 		return (commands[0]);
 	while (paths[i])
 	{
@@ -51,9 +31,9 @@ char	*ft_get_command(char **paths, char **commands)
 			ft_freestr(paths);
 			return (res);
 		}
+		free(res);
 		i++;
 	}
-	ft_freestr(paths);
 	return (NULL);
 }
 
@@ -66,42 +46,82 @@ void	ft_exec(char *commands, t_pipex *pipex, char **envp)
 	{
 		if (execve(pipex->command, pipex->commands, envp) == -1)
 		{
-			free(pipex->command);
 			ft_freestr(pipex->commands);
-			ft_error("execve error");
+			ft_freestr(pipex->paths);
+			free(pipex);
+			ft_error("execve error\n");
 		}
 	}
 	else
 	{
-		free(pipex->command);
+		// free(pipex->command);
 		ft_freestr(pipex->commands);
-		ft_error("access error");
+		ft_freestr(pipex->paths);
+		free(pipex);
+		ft_error("access error\n");
 	}
+}
+
+// pipex->filein = open(av[1], O_RDONLY | O_CREAT, 0644);
+// close(pipex->fd[0])
+// dup2(pipex->filein, STDIN_FILENO)
+// close(pipex->filein)
+// dup2(pipex->fd[1], STDOUT_FILENO)
+// close(pipex->fd[1])
+void	child_p1(char **av, t_pipex *pipex, char **envp)
+{
+	pipex->filein = open(av[1], O_RDONLY | O_CREAT, 0644);
+	if (pipex->filein < 0)
+		ft_error("Input file error\n");
+	if (close(pipex->fd[0]) == -1)
+		ft_error("sys error on close pipe read end\n");
+	if (dup2(pipex->filein, STDIN_FILENO) == -1)
+		ft_error("System error on dup2 for filein\n");
+	if (close(pipex->filein) == -1)
+		ft_error("System error on close filein\n");
+	if (dup2(pipex->fd[1], STDOUT_FILENO) == -1)
+		ft_error("System error on dup2 for pipe write end\n");
+	if (close(pipex->fd[1]) == -1)
+		ft_error("System error on close pipe write end\n");
+	ft_exec(av[2], pipex, envp);
+}
+
+// pipex->fileout = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644)
+// close(pipex->fd[1])
+// dup2(pipex->fd[0], STDIN_FILENO)
+// close(pipex->fd[0])
+// dup2(pipex->fileout, STDOUT_FILENO)
+// close(pipex->fileout)
+void	child_p2(char **av, t_pipex *pipex, char **envp)
+{
+	pipex->fileout = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (pipex->fileout < 0)
+		ft_error("Output file error\n");
+	if (close(pipex->fd[1]) == -1)
+		ft_error("System error on close pipe write end\n");
+	if (dup2(pipex->fd[0], STDIN_FILENO) == -1)
+		ft_error("System error on dup2 for pipe read end");
+	if (close(pipex->fd[0]) == -1)
+		ft_error("System error on close pipe read end");
+	if (dup2(pipex->fileout, STDOUT_FILENO) == -1)
+		ft_error("System error on dup2 for fileout");
+	if (close(pipex->fileout) == -1)
+		ft_error("System error on close fileout");
+	ft_exec(av[3], pipex, envp);
 }
 
 void	pipe_init(char **av, char **envp, t_pipex *pipex)
 {
-	pipe(pipex->fd);
+	if (pipe(pipex->fd) == -1)
+		ft_error("pipe error\n");
 	pipex->pid1 = fork();
+	if (pipex->pid1 == -1)
+		ft_error("Fork Error\n");
 	if (pipex->pid1 == 0)
-	{
-		pipex->filein = open(av[1], O_RDONLY);
-		close(pipex->fd[0]);
-		dup2(pipex->filein, STDIN_FILENO);
-		close(pipex->filein);
-		dup2(pipex->fd[1], STDOUT_FILENO);
-		close(pipex->fd[1]);
-		ft_exec(av[2], pipex, envp);
-	}
+		child_p1(av, pipex, envp);
 	pipex->pid2 = fork();
+	if (pipex->pid2 == -1)
+		ft_error("Fork Error\n");
 	if (pipex->pid2 == 0)
-	{
-		pipex->fileout = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		close(pipex->fd[1]);
-		dup2(pipex->fd[0], STDIN_FILENO);
-		close(pipex->fd[0]);
-		dup2(pipex->fileout, STDOUT_FILENO);
-		close(pipex->fileout);
-		ft_exec(av[3], pipex, envp);
-	}
+		child_p2(av, pipex, envp);
 }
