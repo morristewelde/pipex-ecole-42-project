@@ -6,7 +6,7 @@
 #    By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/18 00:01:51 by mtewelde          #+#    #+#              #
-#    Updated: 2024/11/18 00:34:18 by mtewelde         ###   ########.fr        #
+#    Updated: 2024/11/18 19:10:35 by mtewelde         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ CFLAGS      = -Wall -Werror -Wextra -g
 
 OBJS 		= $(SRC:.c=.o)
 
-RM 			= rm -f
+RM 			= rm -rf
+
 
 all: $(NAME)
 
@@ -29,9 +30,9 @@ $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 clean:
-	$(RM)$(OBJS)
+	$(RM) $(OBJS)
 
 fclean: clean
-	$(RM)$(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
