@@ -6,13 +6,13 @@
 #    By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/18 00:01:51 by mtewelde          #+#    #+#              #
-#    Updated: 2024/11/18 19:10:35 by mtewelde         ###   ########.fr        #
+#    Updated: 2024/11/20 22:39:42 by mtewelde         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		= pipex
 
-SRC			= pipex.c\
+SRC			= bonus.c\
 				src/ft_init.c src/ft_split.c src/utils.c 
 
 CC 			= cc
