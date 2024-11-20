@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:23:35 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/18 21:50:45 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/20 21:45:18 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,7 @@
 
 void	ft_error(char *err)
 {
-	int	i;
-
-	i = 0;
-	while (err[i])
-	{
-		write(2, &err[i], 1);
-		i++;
-	}
+	perror(err);
 	exit(EXIT_FAILURE);
 }
 
