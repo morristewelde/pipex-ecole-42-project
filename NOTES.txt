@@ -17,7 +17,7 @@ access()
 	F_OK: Checks if the file exists (without checking specific permissions).
 	
 	R_OK = 4;
-	W_OK = 2;
+	W_OK = 2; 
 	X_OK = 1;
 	F_OK = 0;   // these are defined in fcntl.h 
 
