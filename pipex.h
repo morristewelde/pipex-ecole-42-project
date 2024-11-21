@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/20 23:12:36 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/21 21:46:51 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ typedef struct s_pipex
 	int		filein;
 	int		fileout;
 	int		fd[2];
-	int		num_pipes;
-	int		**pipes;
 	char	**commands;
 	char	**paths;
 	char	*command;
@@ -39,8 +37,6 @@ typedef struct s_pipex
 char	*absolute_relative(const char *command, unsigned int slash, int dot);
 char	**ft_get_paths(char **envp);
 void	pipe_init(char **av, char **envp, t_pipex *pipex);
-void	ft_exec(char *commands, t_pipex *pipex, char **envp);
-
 
 //utils
 void	ft_error(char *err);
