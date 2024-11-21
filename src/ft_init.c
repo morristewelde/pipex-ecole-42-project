@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/20 22:17:28 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/22 00:28:10 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,12 @@ void	ft_exec(char *commands, t_pipex *pipex, char **envp)
 // close(pipex->fd[1])
 void	child_p1(char **av, t_pipex *pipex, char **envp)
 {
-	pipex->filein = open(av[1], O_RDONLY | O_CREAT, 0644);
+	pipex->filein = open(av[1], O_RDONLY);
 	if (pipex->filein < 0)
+	{
+		free(pipex);
 		ft_error("Input file error ");
+	}
 	if (close(pipex->fd[0]) == -1)
 		ft_error("sys error on close pipe read end ");
 	if (dup2(pipex->filein, STDIN_FILENO) == -1)
@@ -93,7 +96,10 @@ void	child_p2(char **av, t_pipex *pipex, char **envp)
 {
 	pipex->fileout = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (pipex->fileout < 0)
+	{
+		free(pipex);
 		ft_error("Output file error ");
+	}
 	if (close(pipex->fd[1]) == -1)
 		ft_error("System error on close pipe write end ");
 	if (dup2(pipex->fd[0], STDIN_FILENO) == -1)
