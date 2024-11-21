@@ -16,12 +16,12 @@ access()
 	X_OK: Checks if the file is executable.
 	F_OK: Checks if the file exists (without checking specific permissions).
 	
-	R_OK = 4;
+	R_OK = 4; 
 	W_OK = 2; 
 	X_OK = 1;
 	F_OK = 0;   // these are defined in fcntl.h 
 
-	example
+	example 
 		access("morris.txt", R_OK);
 	access return 0 or -1 if 0 access permitted if -1 acess denied check
 
