@@ -6,16 +6,35 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:23:35 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/20 21:45:18 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/22 01:28:09 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	ft_error(char *err)
+char	*ft_get_command(char **paths, char **commands)
 {
-	perror(err);
-	exit(EXIT_FAILURE);
+	int		i;
+	char	*tmp;
+	char	*res;
+
+	i = 0;
+	if (absolute_relative(commands[0], '/', '.') != 0)
+		return (commands[0]);
+	while (paths[i])
+	{
+		tmp = ft_strjoin(paths[i], "/");
+		res = ft_strjoin(tmp, commands[0]);
+		free(tmp);
+		if (access(res, F_OK) == 0)
+		{
+			ft_freestr(paths);
+			return (res);
+		}
+		free(res);
+		i++;
+	}
+	return (NULL);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)

@@ -6,11 +6,17 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/20 21:38:34 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/22 01:32:41 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	ft_error(char *err)
+{
+	perror(err);
+	exit(EXIT_FAILURE);
+}
 
 int	white_space(char *av)
 {
@@ -32,7 +38,7 @@ int	main(int ac, char **av, char **envp)
 
 	if (ac != 5 || !white_space(av[1]) || !white_space(av[2])
 		|| !white_space(av[3]) || !white_space(av[4]))
-		ft_error("error with argument!");
+		ft_error("arg error ./pipex infile cmd1 cmd2 outfile ");
 	if (!envp)
 		ft_error("error with envp!");
 	pipex = malloc(sizeof(t_pipex));

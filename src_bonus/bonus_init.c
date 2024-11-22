@@ -6,26 +6,11 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/22 00:52:24 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/22 01:50:40 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex_bonus.h"
-
-void	free_resources(t_pipex *pipex)
-{
-	int	i;
-
-	i = 0;
-	while (i < pipex->num_cmds - 1)
-	{
-		if (pipex->fd[i])
-			free(pipex->fd[i]);
-		i++;
-	}
-	if (pipex->fd)
-		free(pipex->fd);
-}
 
 void	handle_child_process(char *cmd, t_pipex *pipex, char **envp, int i)
 {
@@ -97,14 +82,12 @@ void	pipex_init(t_pipex *pipex, char **av, char **envp, int ac)
 	int	i;
 
 	pipex->filein = open(av[1], O_RDONLY);
-	if (pipex->filein < 0)
+	pipex->fileout = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (pipex->filein < 0 || pipex->fileout < 0)
 	{
 		free(pipex);
 		ft_error("Input file error ");
 	}
-	pipex->fileout = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (pipex->filein < 0 || pipex->fileout < 0)
-		ft_error("file error");
 	pipex->num_cmds = ac - 3;
 	create_pipes(pipex);
 	i = 0;
@@ -118,5 +101,5 @@ void	pipex_init(t_pipex *pipex, char **av, char **envp, int ac)
 		i++;
 	}
 	close_wait(pipex);
-	free_resources(pipex);
+	free_fd(pipex);
 }

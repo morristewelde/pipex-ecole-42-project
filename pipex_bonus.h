@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
+/*   Updated: 2024/11/22 01:27:37 by mtewelde         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
 
@@ -31,7 +43,7 @@ char	*absolute_relative(const char *command, unsigned int slash, int dot);
 char	*ft_get_command(char **paths, char **commands);
 char	**ft_get_paths(char **envp);
 void	ft_exec(char *cmd, t_pipex *pipex, char **envp);
-void	free_resources(t_pipex *pipex);
+void	free_fd(t_pipex *pipex);
 
 //utils
 void	ft_error(char *err);
@@ -43,7 +55,5 @@ char	*ft_strjoin(const char *s1, const char *s2);
 char	**ft_split(char *str, char sep);
 size_t	ft_strlen(const char *str);
 void	ft_freestr(char **str);
-
-
 
 #endif

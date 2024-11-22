@@ -6,19 +6,19 @@
 #    By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/18 00:01:51 by mtewelde          #+#    #+#              #
-#    Updated: 2024/11/22 00:15:27 by mtewelde         ###   ########.fr        #
+#    Updated: 2024/11/22 01:27:53 by mtewelde         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        = pipex
 NAME_BONUS  = pipex_bonus
 
-SRC         = pipex.c \
+SRC         = pipex.c\
               src/ft_init.c src/ft_split.c src/utils.c 
 
-SRCB        = bonus.c \
-              src_bonus/ft_split.c src_bonus/bonus_utils.c \
-              src_bonus/bonus_init.c src_bonus/utils.c
+SRCB        = bonus.c\
+              src/ft_split.c src/utils.c\
+			  src_bonus/bonus_utils.c src_bonus/bonus_init.c
 
 CC          = cc
 CFLAGS      = -Wall -Werror -Wextra -g

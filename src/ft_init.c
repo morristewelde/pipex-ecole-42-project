@@ -6,36 +6,11 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/22 00:28:10 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/22 01:28:27 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
-
-char	*ft_get_command(char **paths, char **commands)
-{
-	int		i;
-	char	*tmp;
-	char	*res;
-
-	i = 0;
-	if (absolute_relative(commands[0], '/', '.') != 0)
-		return (commands[0]);
-	while (paths[i])
-	{
-		tmp = ft_strjoin(paths[i], "/");
-		res = ft_strjoin(tmp, commands[0]);
-		free(tmp);
-		if (access(res, F_OK) == 0)
-		{
-			ft_freestr(paths);
-			return (res);
-		}
-		free(res);
-		i++;
-	}
-	return (NULL);
-}
 
 void	ft_exec(char *commands, t_pipex *pipex, char **envp)
 {
