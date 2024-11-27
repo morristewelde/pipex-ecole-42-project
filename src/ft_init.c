@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/22 01:28:27 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/26 22:38:12 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,14 @@ void	ft_exec(char *commands, t_pipex *pipex, char **envp)
 		ft_freestr(pipex->commands);
 		ft_freestr(pipex->paths);
 		free(pipex);
-		ft_error("command not found: ");
+		ft_error("command not found \n");
 	}
 	if (execve(pipex->command, pipex->commands, envp) == -1)
 	{
-		free(pipex->command);
 		ft_freestr(pipex->commands);
 		ft_freestr(pipex->paths);
 		free(pipex);
-		ft_error("execve error on commands : ");
+		ft_error("execve error on commands \n");
 	}
 }
 
@@ -46,18 +45,18 @@ void	child_p1(char **av, t_pipex *pipex, char **envp)
 	if (pipex->filein < 0)
 	{
 		free(pipex);
-		ft_error("Input file error ");
+		ft_error("Input file error \n");
 	}
 	if (close(pipex->fd[0]) == -1)
-		ft_error("sys error on close pipe read end ");
+		ft_error("sys error on close pipe read end \n");
 	if (dup2(pipex->filein, STDIN_FILENO) == -1)
-		ft_error("System error on dup2 for filein ");
+		ft_error("System error on dup2 for filein \n");
 	if (close(pipex->filein) == -1)
-		ft_error("System error on close filein ");
+		ft_error("System error on close filein \n");
 	if (dup2(pipex->fd[1], STDOUT_FILENO) == -1)
-		ft_error("System error on dup2 for pipe write end ");
+		ft_error("System error on dup2 for pipe write end \n");
 	if (close(pipex->fd[1]) == -1)
-		ft_error("System error on close pipe write end ");
+		ft_error("System error on close pipe write end \n");
 	ft_exec(av[2], pipex, envp);
 }
 

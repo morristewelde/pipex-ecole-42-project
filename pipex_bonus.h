@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/22 01:27:37 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/26 23:01:31 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	create_pipes(t_pipex *pipex);
 void	pipex_init(t_pipex *pipex, char **av, char **envp, int ac);
 
 //pipex utils
-char	*absolute_relative(const char *command, unsigned int slash, int dot);
+char	*absolute_relative(const char *command, unsigned int slash);
 char	*ft_get_command(char **paths, char **commands);
 char	**ft_get_paths(char **envp);
 void	ft_exec(char *cmd, t_pipex *pipex, char **envp);

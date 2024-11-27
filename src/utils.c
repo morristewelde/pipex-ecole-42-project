@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 14:23:35 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/22 01:28:09 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/26 22:14:26 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_get_command(char **paths, char **commands)
 	char	*res;
 
 	i = 0;
-	if (absolute_relative(commands[0], '/', '.') != 0)
+	if (absolute_relative(commands[0], '/') != 0)
 		return (commands[0]);
 	while (paths[i])
 	{
@@ -51,18 +51,16 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-char	*absolute_relative(const char *command, unsigned int slash, int dot)
+char	*absolute_relative(const char *command, unsigned int slash)
 {
 	int		i;
-	char	d;
 	char	s;
 
-	d = (char) slash;
-	s = (char) dot;
+	s = (char) slash;
 	i = 0;
 	while (command[i])
 	{
-		if ((command[i] == d) || (command[i] == s))
+		if (command[i] == s)
 			return ((char *)&command[i]);
 		i++;
 	}

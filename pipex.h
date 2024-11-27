@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/22 01:27:49 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/26 22:13:54 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_pipex
 }			t_pipex;
 
 //initialize pipex
-char	*absolute_relative(const char *command, unsigned int slash, int dot);
+char	*absolute_relative(const char *command, unsigned int slash);
 char	**ft_get_paths(char **envp);
 char	*ft_get_command(char **paths, char **commands);
 void	pipe_init(char **av, char **envp, t_pipex *pipex);

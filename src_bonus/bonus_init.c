@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/22 01:50:40 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/26 22:58:28 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ void	create_pipes(t_pipex *pipex)
 	i = 0;
 	pipex->fd = malloc((pipex->num_cmds - 1) * sizeof(int *));
 	if (!pipex->fd)
-		ft_error("malloc error ");
+		ft_error("malloc error\n");
 	while (i < pipex->num_cmds - 1)
 	{
 		pipex->fd[i] = malloc(2 * sizeof(int));
 		if (pipe(pipex->fd[i]) == -1)
-			ft_error("pipe error");
+			ft_error("pipe error\n");
 		i++;
 	}
 }
@@ -86,7 +86,7 @@ void	pipex_init(t_pipex *pipex, char **av, char **envp, int ac)
 	if (pipex->filein < 0 || pipex->fileout < 0)
 	{
 		free(pipex);
-		ft_error("Input file error ");
+		ft_error("Input file error \n");
 	}
 	pipex->num_cmds = ac - 3;
 	create_pipes(pipex);
@@ -95,7 +95,7 @@ void	pipex_init(t_pipex *pipex, char **av, char **envp, int ac)
 	{
 		pipex->pid = fork();
 		if (pipex->pid == -1)
-			ft_error("fork error");
+			ft_error("fork error\n");
 		if (pipex->pid == 0)
 			handle_child_process(av[2 + i], pipex, envp, i);
 		i++;

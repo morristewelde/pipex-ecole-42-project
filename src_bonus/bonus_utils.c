@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/22 01:28:01 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/26 21:52:20 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,14 @@ void	ft_exec(char *cmd, t_pipex *pipex, char **envp)
 		ft_freestr(pipex->commands);
 		ft_freestr(pipex->paths);
 		free(pipex);
-		ft_error("command not found");
+		ft_error("command not found\n");
 	}
 	if (execve(pipex->command, pipex->commands, envp) == -1)
 	{
 		free_fd(pipex);
-		free(pipex->command);
 		ft_freestr(pipex->commands);
 		ft_freestr(pipex->paths);
 		free(pipex);
-		ft_error("execve error");
+		ft_error("execve error\n");
 	}
 }
