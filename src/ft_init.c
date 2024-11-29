@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/26 22:38:12 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/29 22:25:21 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ void	child_p2(char **av, t_pipex *pipex, char **envp)
 	if (pipex->fileout < 0)
 	{
 		free(pipex);
-		ft_error("Output file error ");
+		ft_error("Output file errorn");
 	}
 	if (close(pipex->fd[1]) == -1)
-		ft_error("System error on close pipe write end ");
+		ft_error("System error on close pipe write end");
 	if (dup2(pipex->fd[0], STDIN_FILENO) == -1)
 		ft_error("System error on dup2 for pipe read end");
 	if (close(pipex->fd[0]) == -1)
@@ -96,6 +96,7 @@ void	pipe_init(char **av, char **envp, t_pipex *pipex)
 		ft_error("Fork Error on child 1");
 	if (pipex->pid1 == 0)
 		child_p1(av, pipex, envp);
+	waitpid(pipex->pid1, NULL, 0);
 	pipex->pid2 = fork();
 	if (pipex->pid2 == -1)
 		ft_error("Fork Error on chlid 2");
