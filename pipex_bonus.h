@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 15:08:02 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/11/26 23:01:31 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/11/29 23:24:46 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ typedef struct s_pipex
 	int		pid;
 	int		filein;
 	int		fileout;
-	int		**fd;
+	int		fd[2];
 	int		num_cmds;
 	char	**commands;
 	char	**paths;
 	char	*command;
+	char	*eof;
 }			t_pipex;
 
 //pipex init
