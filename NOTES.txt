@@ -44,6 +44,18 @@ exec execvp execve . . .
 WAIT	
 	wait(NULL) will pause the parent process untill the child is done executing.
 		- wait will reply -1 if error or no child to wait for anymore unless otherwise it will return the process id it has been waiting for.
+		
+		
+WAITPID 
+	waitpid(pid, NULL, 0) - this will wait for specified pid in the argument.
+	- pid - the pid it is waiting for. 
+	- NULL - means doesnt check the exit status of pid's process.
+	- 0 - 0 means no special options; it waits for the child process to terminate.
+	
+		Common options include:
+			WNOHANG: Return immediately if no child has exited.
+			WUNTRACED: Also return if a child has stopped but is not terminated.
+			WCONTINUED: Also return if a stopped child has been resumed by delivery of SIGCONT.
 
 
 GETPID()
