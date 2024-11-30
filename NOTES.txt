@@ -182,34 +182,9 @@ BIN  & PATH     - - - - BIN (Binary Directory)
 		- Snap packages (e.g., /snap/bin): Commands installed via Snap package manager.
 
 
-
-
-
-
-
-
-
-
-
-
-
+mohimi
 
 GDB DEBUGING
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -6,7 +6,7 @@
 # endif
 
 # ifndef OPEN_MAX
-#  define  OPEN_MAX 1024
+#  define  OPEN_MAX 1023
 # endif
 
 # include <stdlib.h>
@@ -62,39 +62,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
-
-void	ft_execve(char **cmd, char **envp, t_bpipex *bpipe)
-{
-	bpipe->split_cmd = ft_split(cmd[0], ' ');
-	bpipe->chec = ft_get_path(envp);
-	if (!bpipe->split_cmd[0] || !bpipe->chec)
-		ft_error_message("command not found!");
-	bpipe->result = check_cmd(bpipe->chec, bpipe->split_cmd);
-	if (bpipe->result)
-	{
-		if (execve(bpipe->result, bpipe->split_cmd, envp) == -1)
-			ft_error_message("error message from execve!");
-	}
-	else
-		ft_error_message("error from access!");
-}
-
-int	ft_open_files(char *av, int i)
-{
-	int	fd;
-
-	fd = -1;
-	if (i == 0)
-		fd = open(av, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (i == 1)
-		fd = open(av, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (i == 2)
-		fd = open(av, O_RDONLY, 0644);
-	else if (i == -1)
-		ft_error_message("Error from open!");
-	return (fd);
-}
-
 
 void	ft_putstr_fd(char *s, int fd)
 {
@@ -429,7 +396,37 @@ char	*check_cmd(char **envp, char **cmd)
 	return (NULL);
 }
 
+void	ft_execve(char **cmd, char **envp, t_bpipex *bpipe)
+{
+	bpipe->split_cmd = ft_split(cmd[0], ' ');
+	bpipe->chec = ft_get_path(envp);
+	if (!bpipe->split_cmd[0] || !bpipe->chec)
+		ft_error_message("command not found!");
+	bpipe->result = check_cmd(bpipe->chec, bpipe->split_cmd);
+	if (bpipe->result)
+	{
+		if (execve(bpipe->result, bpipe->split_cmd, envp) == -1)
+			ft_error_message("error message from execve!");
+	}
+	else
+		ft_error_message("error from access!");
+}
 
+int	ft_open_files(char *av, int i)
+{
+	int	fd;
+
+	fd = -1;
+	if (i == 0)
+		fd = open(av, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (i == 1)
+		fd = open(av, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if (i == 2)
+		fd = open(av, O_RDONLY, 0644);
+	else if (i == -1)
+		ft_error_message("Error from open!");
+	return (fd);
+}
 
 void	first_middle_cmds(char *command, char **envp, t_bpipex *bpipe)
 {
@@ -483,7 +480,7 @@ void	ft_is_there_herdoc(t_bpipex *pipex, int fd[2])
 	close(fd[0]);
 	while (1)
 	{
-		ft_putstr_fd("here_doc> ", 1);
+		ft_putstr_fd("here_doc > ", 1);
 		ret_line = get_next_line(0);
 		if (!ret_line)
 			exit(EXIT_FAILURE);
@@ -497,7 +494,6 @@ void	ft_is_there_herdoc(t_bpipex *pipex, int fd[2])
 		free(ret_line);
 	}
 }
-
 
 void	ft_here_doc(t_bpipex *pipex)
 {
