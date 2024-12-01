@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 20:37:29 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/12/01 21:40:41 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/12/02 00:35:35 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	process_heredoc(t_pipex *pipex)
 	int		fd[2];
 	pid_t	pid;
 
-	(void)pipex;
 	if (pipe(fd) == -1)
 		ft_error("pipe error : ");
 	pid = fork();
@@ -89,7 +88,7 @@ void	ft_init_bonus(int ac, char **av, t_pipex *pipex)
 		pipex->nb_cmd = ac - 4;
 		pipex->index = 3;
 		pipex->eof = av[2];
-		pipex->fileout = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		pipex->fileout = open(av[ac - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (pipex->fileout == -1)
 		{
 			free(pipex);

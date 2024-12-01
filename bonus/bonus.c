@@ -6,7 +6,7 @@
 /*   By: mtewelde <mtewelde@student.42lehavre.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 20:37:29 by mtewelde          #+#    #+#             */
-/*   Updated: 2024/12/01 21:45:02 by mtewelde         ###   ########.fr       */
+/*   Updated: 2024/12/02 00:49:13 by mtewelde         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,26 +73,41 @@ void	output_command(int ac, char **av, char **envp, t_pipex *pipex)
 	}
 }
 
-int	main(int ac, char **av, char **envp)
+int	invalid_arg(int ac, char **av, char **envp)
 {
-	t_pipex	*pipex;
-	int		waitp;
-
 	if (ac < 5 || ((ft_strncmp(av[1], "here_doc", 8) == 0) && ac < 6)
 		|| white_space(av) == 0)
 	{
 		ft_putstr_fd("arg err: ./pipex_bonus infile cmd1...cmd_n outfile\n", 2);
 		ft_putstr_fd("	or ./pipex_bonus here_doc EOF cmd cmd outfile\n", 2);
-		exit(1);
+		return(1);
 	}
+	if (!envp)
+	{
+		ft_error("error with envp");
+		return(1);
+	}
+	return (0);
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	t_pipex	*pipex;
+	int		waitp;
+	int		cmd_count;
+
+	if (invalid_arg(ac, av, envp))
+		return (1);
 	pipex = malloc(sizeof(t_pipex));
 	if (!pipex)
 		ft_error("error with malloc");
-	if (!envp)
-		ft_error("error with envp");
 	ft_init_bonus(ac, av, pipex);
-	while (pipex->index < ac - 2)
+	cmd_count = 0;
+	while (cmd_count < pipex->nb_cmd)
+	{
 		middle_commads(av[pipex->index++], envp, pipex);
+		cmd_count++;
+	}
 	output_command(ac, av, envp, pipex);
 	waitp = wait(NULL);
 	while (waitp != -1)
